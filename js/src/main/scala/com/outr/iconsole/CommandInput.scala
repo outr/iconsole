@@ -31,4 +31,6 @@ object CommandInput extends Container {
 
   children += background
   children += text
+
+  def value: Var[String] = text.component.value
 }

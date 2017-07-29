@@ -1,6 +1,6 @@
 package com.outr.iconsole.example
 
-import com.outr.iconsole.{ConsoleScreen, IConsoleApplication}
+import com.outr.iconsole.{CommandProcessor, ConsoleScreen, IConsoleApplication}
 import io.youi._
 import io.youi.app.ClientApplication
 import io.youi.http.path
@@ -11,5 +11,9 @@ object IConsoleClient extends ClientApplication with IConsoleApplication {
   val screen = new ConsoleScreen(path.exact("/"))
 
   @JSExportTopLevel("application")
-  def main(): Unit = ui.init()
+  def main(): Unit = {
+    CommandProcessor.register(TestCommandProcessor)
+
+    ui.init()
+  }
 }

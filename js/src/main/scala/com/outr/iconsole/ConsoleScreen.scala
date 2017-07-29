@@ -13,7 +13,14 @@ class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLA
     container.children += CommandInput
 
     renderer.event.key.down.attach { evt =>
-      scribe.info(s"KeyEvent: $evt")
+      if (evt.key == Key.Enter) {
+        Command.parse(CommandInput.value()).foreach { command =>
+          // TODO: support active module
+          CommandProcessor.process(None, command)
+        }
+      } else if (evt.key == Key.Tab) {
+        evt.stopPropagation()
+      }
     }
   }
 
