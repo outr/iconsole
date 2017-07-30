@@ -1,5 +1,7 @@
 package com.outr.iconsole
 
+import scala.language.experimental.macros
+
 trait CommandProcessor {
   def module: Option[String]
   def name: String
@@ -17,6 +19,8 @@ object CommandProcessor {
     }
     map += key -> processor
   }
+
+  def registerFromObject[T](obj: T): List[CommandProcessor] = macro ProcessorGenerator.registerFromObject[T]
 
   def process(module: Option[String], command: Command): Boolean = {
     val list = command.module match {

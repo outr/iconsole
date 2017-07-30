@@ -8,6 +8,7 @@ val youi = "0.5.1-SNAPSHOT"
 lazy val iconsole = crossProject.in(file("."))
   .settings(
     libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "io.youi" %%% "youi-app" % youi
     )
   )
