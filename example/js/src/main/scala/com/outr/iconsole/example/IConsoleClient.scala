@@ -13,7 +13,7 @@ object IConsoleClient extends ClientApplication with IConsoleApplication {
   @JSExportTopLevel("application")
   def main(): Unit = {
     CommandProcessor.register(TestCommandProcessor)
-    CommandProcessor.registerFromObject(ExampleCommands)
+    CommandProcessor.registerFromObject(None, ExampleCommands)
 
     ui.init()
   }

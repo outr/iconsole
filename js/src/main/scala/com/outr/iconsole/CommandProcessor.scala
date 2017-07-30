@@ -6,7 +6,7 @@ trait CommandProcessor {
   def module: Option[String]
   def name: String
 
-  def process(command: Command): Unit
+  def process(command: Command): Any
 }
 
 object CommandProcessor {
@@ -20,7 +20,7 @@ object CommandProcessor {
     map += key -> processor
   }
 
-  def registerFromObject[T](obj: T): List[CommandProcessor] = macro ProcessorGenerator.registerFromObject[T]
+  def registerFromObject[T](module: Option[String], obj: T): List[CommandProcessor] = macro ProcessorGenerator.registerFromObject[T]
 
   def process(module: Option[String], command: Command): Boolean = {
     val list = command.module match {
@@ -35,4 +35,14 @@ object CommandProcessor {
       case None => false
     }
   }
+
+  def apply(module: Option[String], name: String)(processor: Command => Any): CommandProcessor = {
+    new FunctionCommandProcessor(module, name, processor)
+  }
+}
+
+class FunctionCommandProcessor(override val module: Option[String],
+                               override val name: String,
+                               processor: Command => Any) extends CommandProcessor {
+  override def process(command: Command): Any = processor(command)
 }
