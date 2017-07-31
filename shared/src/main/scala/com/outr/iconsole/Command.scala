@@ -2,7 +2,7 @@ package com.outr.iconsole
 
 import scala.collection.mutable.ListBuffer
 
-case class Command(module: Option[String], name: String, args: Map[String, String])
+case class Command(text: String, module: Option[String], name: String, args: Map[String, String])
 
 object Command {
   private val CommandAndModuleRegex = """(.+):(.+)""".r
@@ -36,7 +36,7 @@ object Command {
           s"arg$increment" -> v
         }
       }
-      Some(Command(module, name, args.toMap))
+      Some(Command(s, module, name, args.toMap))
     } else {
       None
     }

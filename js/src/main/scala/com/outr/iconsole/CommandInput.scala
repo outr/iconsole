@@ -17,7 +17,6 @@ object CommandInput extends Container {
   }
 
   object text extends HTMLComponent[TextInput](new TextInput) {
-    component.value := "Hello, World!"
     component.color := ColorScheme.primary
     component.font.size := 24.0
     component.font.family := "sans-serif"
