@@ -20,8 +20,8 @@ class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLA
             val resultContainer = new ResultContainer(command, commandResult)
             resultContainer.position.center := ui.position.center()
             container.children += resultContainer
-            scribe.info(s"Result: $commandResult")
           }
+          CommandInput.value := ""
         }
       } else if (evt.key == Key.Tab) {
         evt.stopPropagation()
