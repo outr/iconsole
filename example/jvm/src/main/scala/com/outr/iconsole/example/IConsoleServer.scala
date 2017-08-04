@@ -6,7 +6,13 @@ import io.youi.http.path
 import io.youi.server.handler.CachingManager
 
 object IConsoleServer extends ServerApplication with IConsoleApplication {
-  handler.matcher(path.exact("/")).page()
+  override def main(args: Array[String]): Unit = start(args)
 
-  handler.caching(CachingManager.LastModified()).classLoader("", (path: String) => s"content$path")
+  protected override def run(): Unit = {
+    handler.matcher(path.exact("/")).page()
+
+    handler.caching(CachingManager.LastModified()).classLoader("", (path: String) => s"content$path")
+
+    super.run()
+  }
 }
