@@ -14,7 +14,5 @@ object IConsoleClient extends ClientApplication with IConsoleApplication {
   def main(): Unit = {
     CommandProcessor.register(TestCommandProcessor)
     CommandProcessor.registerFromObject(None, ExampleCommands)
-
-    ui.init()
   }
 }

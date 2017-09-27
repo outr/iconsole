@@ -2,10 +2,9 @@ package com.outr.iconsole
 
 import com.outr.iconsole.result.CommandResult
 import io.youi._
-import io.youi.component.draw.{Fill, Group, Stroke}
-import io.youi.component.draw.path.Path
-import io.youi.component.font.Font
 import io.youi.component.{Container, DrawableComponent, Text}
+import io.youi.font.{Font, GoogleFont}
+import io.youi.paint.{Border, Stroke}
 import reactify._
 
 import scala.concurrent.Future
@@ -13,20 +12,22 @@ import scala.util.{Failure, Success}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class ResultContainer(command: Command, result: Future[CommandResult]) extends Container {
-  private val background = new DrawableComponent {
-    drawable := Group(
-      Path
-        .begin
-        .roundedRect(0.0, 0.0, size.width, size.height, 10.0)
-        .close,
-      Fill(ColorScheme.base2),
-      Stroke(ColorScheme.base1)
-    )
-  }
+  background := ColorScheme.base2
+  border := Border(Stroke(Color.Clear, 0.0), 10.0)
+//  private val background = new DrawableComponent {
+//    drawable := Group(
+//      Path
+//        .begin
+//        .roundedRect(0.0, 0.0, size.width, size.height, 10.0)
+//        .close,
+//      Fill(ColorScheme.base2),
+//      Stroke(ColorScheme.base1)
+//    )
+//  }
 
   private val commandLabel = new Text {
     value := "Command: "
-    font.file := Font.fromPath("/fonts/OpenSans-Bold.ttf")
+    font.file := Font.fromURL(GoogleFont.`Open Sans`.`700`)
 
     position.left := 10.0
     position.top := 10.0
@@ -72,11 +73,8 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
     }
   }
 
-  background.size.width := size.width
-  background.size.height := size.height
-  size.width := ui.size.width - 10.0
+  size.width := ui.width - 10.0
   size.height := statusText.position.bottom + 10.0
-  children += background
   children += commandLabel
   children += commandText
   children += statusLabel

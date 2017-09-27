@@ -9,4 +9,6 @@ object IConsoleServer extends ServerApplication with IConsoleApplication {
   handler.matcher(path.exact("/")).page()
 
   handler.caching(CachingManager.LastModified()).classLoader("", (path: String) => s"content$path")
+
+  override def main(args: Array[String]): Unit = start(args)
 }

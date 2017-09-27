@@ -3,7 +3,7 @@ organization in ThisBuild := "com.outr"
 version in ThisBuild := "1.0.0-SNAPSHOT"
 scalaVersion in ThisBuild := "2.12.2"
 
-val youi = "0.5.1-SNAPSHOT"
+val youi = "0.7.0"
 
 lazy val iconsole = crossProject.in(file("."))
   .settings(
@@ -14,7 +14,7 @@ lazy val iconsole = crossProject.in(file("."))
   )
   .jvmSettings(
     libraryDependencies ++= Seq(
-      "com.outr" %% "scarango-driver" % "0.7.0"
+      "com.outr" %% "scarango-driver" % "0.8.2"
     )
   )
 
