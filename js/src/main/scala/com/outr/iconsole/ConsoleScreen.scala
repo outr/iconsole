@@ -37,7 +37,7 @@ class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLA
 }
 
 object ConsoleResults extends Container {
-  layoutManager := new VerticalLayout(10.0, fromTop = false)
+  layoutManager := new VerticalLayout(10.0, fromTop = true)
   position.left := 0.0
   position.top := 0.0
   size.width := ui.width
