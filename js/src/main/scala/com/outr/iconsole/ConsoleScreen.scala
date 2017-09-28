@@ -1,6 +1,6 @@
 package com.outr.iconsole
 
-import io.youi._
+import io.youi.{HistoryStateChange, Key, ui}
 import io.youi.app.screen.{UIScreen, URLActivation}
 import io.youi.component.Container
 import io.youi.layout.VerticalLayout
