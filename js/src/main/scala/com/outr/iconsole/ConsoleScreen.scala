@@ -21,7 +21,7 @@ class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLA
           CommandProcessor.process(None, command).foreach { commandResult =>
             val resultContainer = new ResultContainer(command, commandResult)
             resultContainer.position.center := ui.position.center()
-            ConsoleResults.add(resultContainer)
+            ConsoleResults.children += resultContainer
           }
           CommandInput.value := ""
         }

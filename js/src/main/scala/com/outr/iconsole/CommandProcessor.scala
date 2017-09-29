@@ -1,10 +1,10 @@
 package com.outr.iconsole
 
 import com.outr.iconsole.result.{CommandResult, TextResult}
+import io.youi.component.Component
 
 import scala.concurrent.Future
 import scala.language.experimental.macros
-
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait CommandProcessor {
@@ -40,13 +40,16 @@ object CommandProcessor {
   def apply(module: Option[String], name: String)(processor: Command => Any): CommandProcessor = {
     new FunctionCommandProcessor(module, name, processor)
   }
+
+  def value2CommandResult(value: Any): Future[CommandResult] = value match {
+    case f: Future[_] => f.flatMap(value2CommandResult)
+    case c: Component => Future.successful(CommandResult(successful = true, content = c))
+    case _ => Future.successful(CommandResult(successful = true, content = new TextResult(value.toString)))
+  }
 }
 
 class FunctionCommandProcessor(override val module: Option[String],
                                override val name: String,
                                processor: Command => Any) extends CommandProcessor {
-  override def process(command: Command): Future[CommandResult] = {
-    // TODO: support better
-    Future.successful(CommandResult(successful = true, content = new TextResult(processor(command).toString)))
-  }
+  override def process(command: Command): Future[CommandResult] = CommandProcessor.value2CommandResult(processor(command))
 }

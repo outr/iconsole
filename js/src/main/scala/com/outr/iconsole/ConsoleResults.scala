@@ -13,8 +13,4 @@ object ConsoleResults extends TypedContainer[ResultContainer] with ScrollSupport
   size.measured.height.on {
     scroll.vertical.bottom()
   }
-
-  def add(result: ResultContainer): Unit = {
-    children += result
-  }
 }

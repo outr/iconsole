@@ -2,7 +2,7 @@ package com.outr.iconsole
 
 import com.outr.iconsole.result.CommandResult
 import io.youi._
-import io.youi.component.{Container, DrawableComponent, Text}
+import io.youi.component.{Container, Text}
 import io.youi.font.{Font, GoogleFont}
 import io.youi.paint.{Border, Stroke}
 import reactify._
