@@ -17,9 +17,10 @@ object CommandInput extends Container {
     component.backgroundColor := Color.Clear
     component.border.size := Some(0.0)
     component.element.style.outline = "none"
-    component.size.width := ui.width - 50.0
-    position.left := 15.0
-    position.top := 6.0
+    component.size.width := ui.width - 20.0
+    size.height := 30.0
+    position.x := 8.0
+    position.y := 1.0
   }
 
   children += text

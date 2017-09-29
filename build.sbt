@@ -3,7 +3,7 @@ organization in ThisBuild := "com.outr"
 version in ThisBuild := "1.0.0-SNAPSHOT"
 scalaVersion in ThisBuild := "2.12.3"
 
-val youi = "0.7.0"
+val youi = "0.7.1-SNAPSHOT"
 
 lazy val iconsole = crossProject.in(file("."))
   .settings(
