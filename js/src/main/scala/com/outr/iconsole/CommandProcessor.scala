@@ -47,6 +47,6 @@ class FunctionCommandProcessor(override val module: Option[String],
                                processor: Command => Any) extends CommandProcessor {
   override def process(command: Command): Future[CommandResult] = {
     // TODO: support better
-    Future.successful(CommandResult(true, new TextResult(processor(command).toString)))
+    Future.successful(CommandResult(successful = true, content = new TextResult(processor(command).toString)))
   }
 }

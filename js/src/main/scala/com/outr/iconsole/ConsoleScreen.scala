@@ -2,8 +2,6 @@ package com.outr.iconsole
 
 import io.youi.{HistoryStateChange, Key, ui}
 import io.youi.app.screen.{UIScreen, URLActivation}
-import io.youi.component.Container
-import io.youi.layout.VerticalLayout
 import io.youi.net.{URL, URLMatcher}
 
 class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLActivation {
@@ -23,7 +21,7 @@ class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLA
           CommandProcessor.process(None, command).foreach { commandResult =>
             val resultContainer = new ResultContainer(command, commandResult)
             resultContainer.position.center := ui.position.center()
-            ConsoleResults.children += resultContainer
+            ConsoleResults.add(resultContainer)
           }
           CommandInput.value := ""
         }
@@ -36,10 +34,3 @@ class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLA
   override def updateURL(current: URL): Option[HistoryStateChange] = None
 }
 
-object ConsoleResults extends Container {
-  layoutManager := new VerticalLayout(10.0, fromTop = true)
-  position.left := 0.0
-  position.top := 0.0
-  size.width := ui.width
-  size.height := ui.height - CommandInput.size.height - 10.0
-}

@@ -14,16 +14,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class ResultContainer(command: Command, result: Future[CommandResult]) extends Container {
   background := ColorScheme.base2
   border := Border(Stroke(Color.Clear, 0.0), 10.0)
-//  private val background = new DrawableComponent {
-//    drawable := Group(
-//      Path
-//        .begin
-//        .roundedRect(0.0, 0.0, size.width, size.height, 10.0)
-//        .close,
-//      Fill(ColorScheme.base2),
-//      Stroke(ColorScheme.base1)
-//    )
-//  }
 
   private val commandLabel = new Text {
     value := "Command: "
@@ -42,7 +32,7 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
 
   private val statusLabel = new Text {
     value := "Status: "
-    font.file := Font.fromPath("/fonts/OpenSans-Bold.ttf")
+    font.file := Font.fromURL(GoogleFont.`Open Sans`.`700`)
 
     position.left := 10.0
     position.top := commandLabel.position.bottom + 10.0
