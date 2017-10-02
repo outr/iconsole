@@ -2,7 +2,11 @@ package com.outr.iconsole
 
 import scala.collection.mutable.ListBuffer
 
-case class Command(text: String, module: Option[String], name: String, args: Map[String, String])
+case class Command(text: String,
+                   module: Option[String],
+                   name: String,
+                   args: Map[String, String],
+                   started: Long = System.currentTimeMillis())
 
 object Command {
   private val CommandAndModuleRegex = """(.+):(.+)""".r
