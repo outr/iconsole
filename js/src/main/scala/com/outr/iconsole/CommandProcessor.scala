@@ -1,7 +1,8 @@
 package com.outr.iconsole
 
 import com.outr.iconsole.result.{CommandResult, TextResult}
-import io.youi.component.Component
+import io.youi.component.{Component, Container}
+import io.youi.layout.VerticalLayout
 
 import scala.concurrent.Future
 import scala.language.experimental.macros
@@ -18,6 +19,8 @@ object CommandProcessor {
   IConsole    // Make sure IConsole is loaded
 
   private var map = Map.empty[String, CommandProcessor]
+
+  def commands: List[String] = map.keySet.toList.sorted
 
   // Default processors
   DefaultCommands.init()
@@ -52,6 +55,15 @@ object CommandProcessor {
     case () => value2CommandResult("Finished successfully")
     case f: Future[_] => f.flatMap(value2CommandResult)
     case c: Component => Future.successful(CommandResult(successful = true, content = c))
+    case l: List[_] => {
+      val futures = Future.sequence(l.map(value2CommandResult))
+      futures.map { results =>
+        val container = new Container
+        container.layout := new VerticalLayout(10.0)
+        container.children ++= results.map(_.content)
+        CommandResult(successful = results.forall(_.successful), content = container)
+      }
+    }
     case _ => Future.successful(CommandResult(successful = true, content = new TextResult(value.toString)))
   }
 }

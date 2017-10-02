@@ -83,7 +83,7 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
         statusText.value := "Failed"
       }
       r.content.position.left := 40.0
-      r.content.position.top := statusLabel.position.bottom + 20.0
+      r.content.position.top := statusLabel.position.bottom + 10.0
       size.height := r.content.position.bottom + 10.0
       children += r.content
     }
