@@ -8,16 +8,17 @@ object DefaultCommands {
   def init(): Unit = {
     CommandProcessor("commands", description = "Lists all available commands.")(_ => commands())
     CommandProcessor("clear", description = "Clears the screen.")(_ => clear())
+    CommandProcessor("clearHistory", description = "Clears the command history backlog.")(_ => clearHistory())
   }
 
   def commands(): List[Container] = {
     CommandProcessor.commands.map { cmd =>
       new Container {
-        val name = new Text {
+        val name: Text = new Text {
           value := s"${cmd.name}: "
           font.file := Font.fromURL(GoogleFont.`Open Sans`.`600`)
         }
-        val description = new Text {
+        val description: Text = new Text {
           value := cmd.shortDescription
           font.file := Font.fromURL(GoogleFont.`Open Sans`.regular)
         }
@@ -27,7 +28,7 @@ object DefaultCommands {
     }
   }
 
-  def clear(): Unit = {
-    ConsoleResults.children := Vector.empty
-  }
+  def clear(): Unit = ConsoleResults.children := Vector.empty
+
+  def clearHistory(): Unit = CommandHistory.clear()
 }

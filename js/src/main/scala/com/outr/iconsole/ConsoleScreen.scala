@@ -15,30 +15,6 @@ class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLA
     CommandInput.position.center := container.position.center
     CommandInput.position.bottom := container.position.bottom - 5.0
     container.children += CommandInput
-
-
-    ui.event.key.down.attach { evt =>
-      if (evt.key == Key.Enter) {
-        Command.parse(CommandInput.value()).foreach { command =>
-          // TODO: support active module
-          CommandProcessor.process(None, command) match {
-            case Some(commandResult) => {
-              val resultContainer = new ResultContainer(command, commandResult)
-              resultContainer.position.center := ui.position.center()
-              ConsoleResults.children += resultContainer
-            }
-            case None => {
-              val result = new TextResult("Command not found!")
-              val resultContainer = new ResultContainer(command, Future.successful(CommandResult(successful = false, content = result)))
-              ConsoleResults.children += resultContainer
-            }
-          }
-          CommandInput.value := ""
-        }
-      } else if (evt.key == Key.Tab) {
-        evt.stopPropagation()
-      }
-    }
   }
 
   override def updateURL(current: URL): Option[HistoryStateChange] = None
