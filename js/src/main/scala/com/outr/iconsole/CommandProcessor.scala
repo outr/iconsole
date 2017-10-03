@@ -11,6 +11,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 trait CommandProcessor {
   def module: Option[String]
   def name: String
+  def shortDescription: String = "No description available."
+  def description: String = "No description available."
 
   def process(command: Command): Future[CommandResult]
 }
@@ -20,7 +22,7 @@ object CommandProcessor {
 
   private var map = Map.empty[String, CommandProcessor]
 
-  def commands: List[String] = map.keySet.toList.sorted
+  def commands: List[CommandProcessor] = map.values.toList.sortBy(_.name)
 
   // Default processors
   DefaultCommands.init()
@@ -33,10 +35,6 @@ object CommandProcessor {
     map += key -> processor
   }
 
-  def register(name: String, module: Option[String] = None)(processor: Command => Any): Unit = {
-    register(new FunctionCommandProcessor(module, name, processor))
-  }
-
   def registerFromObject[T](module: Option[String], obj: T): List[CommandProcessor] = macro ProcessorGenerator.registerFromObject[T]
 
   def process(module: Option[String], command: Command): Option[Future[CommandResult]] = {
@@ -47,8 +45,16 @@ object CommandProcessor {
     list.view.flatMap(map.get).headOption.map(_.process(command))
   }
 
-  def apply(module: Option[String], name: String)(processor: Command => Any): CommandProcessor = {
-    new FunctionCommandProcessor(module, name, processor)
+  def apply(name: String,
+            module: Option[String] = None,
+            shortDescription: String = "",
+            description: String = "",
+            autoRegister: Boolean = true)(processor: Command => Any): CommandProcessor = {
+    val ld = if (description.isEmpty) "No description available." else description
+    val sd = if (shortDescription.isEmpty) ld.take(100) else shortDescription
+    val p = new FunctionCommandProcessor(module, name, processor, sd, ld)
+    if (autoRegister) register(p)
+    p
   }
 
   def value2CommandResult(value: Any): Future[CommandResult] = value match {
@@ -70,6 +76,8 @@ object CommandProcessor {
 
 class FunctionCommandProcessor(override val module: Option[String],
                                override val name: String,
-                               processor: Command => Any) extends CommandProcessor {
+                               processor: Command => Any,
+                               override val shortDescription: String,
+                               override val description: String) extends CommandProcessor {
   override def process(command: Command): Future[CommandResult] = CommandProcessor.value2CommandResult(processor(command))
 }

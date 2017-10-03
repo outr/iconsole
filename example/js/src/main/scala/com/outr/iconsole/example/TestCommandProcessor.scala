@@ -10,6 +10,8 @@ import org.scalajs.dom._
 object TestCommandProcessor extends CommandProcessor {
   override def module: Option[String] = None
   override def name: String = "test"
+  override def shortDescription: String = description
+  override def description: String = "Simple test command."
 
   override def process(command: Command): Future[CommandResult] = {
     val promise = Promise[CommandResult]

@@ -29,6 +29,12 @@ object ProcessorGenerator {
       term.isMethod && !term.isConstructor && term.isPublic && m.name.decodedName.toString.contains("$default$")
     }.map(m => m.name.decodedName.toString -> m).toMap
     val commandProcessors = methods.map { m =>
+      val description = m.annotations.find(_.tree.tpe <:< typeOf[description]).flatMap { a =>
+        a.tree.children.tail.collect({ case Literal(Constant(value: String)) => value }).headOption
+      }.getOrElse("")
+      val shortDescription = m.annotations.find(_.tree.tpe <:< typeOf[shortDescription]).flatMap { a =>
+        a.tree.children.tail.collect({ case Literal(Constant(value: String)) => value }).headOption
+      }.getOrElse("")
       val name = m.name.decodedName.toString
       val paramList = m.info.paramLists.head
       val params = paramList.zipWithIndex.map {
@@ -42,7 +48,7 @@ object ProcessorGenerator {
       q"""
          import com.outr.iconsole._
 
-         CommandProcessor($module, $name) { command =>
+         CommandProcessor($name, $module, $shortDescription, $description, autoRegister = false) { command =>
            $m(..$params)
          }
       """
