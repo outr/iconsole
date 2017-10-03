@@ -1,7 +1,6 @@
 package com.outr.iconsole.example
 
 import com.outr.iconsole.{CommandProcessor, ConsoleScreen, IConsoleApplication}
-import io.youi._
 import io.youi.app.ClientApplication
 import io.youi.http.path
 

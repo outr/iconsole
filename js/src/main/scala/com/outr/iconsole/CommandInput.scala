@@ -36,7 +36,7 @@ object CommandInput extends Container {
       evt.preventDefault()
       CommandHistory.previous().foreach(value := _)
     } else if (evt.key == Key.ArrowDown) {
-      evt.stopPropagation
+      evt.stopPropagation()
       evt.preventDefault()
       value := CommandHistory.next().getOrElse("")
     } else if (evt.key == Key.Tab) {
@@ -48,13 +48,13 @@ object CommandInput extends Container {
               autoClear: Boolean = true,
               includeInHistory: Boolean = true): Unit = Command.parse(commandString).foreach { command =>
     // TODO: support active module
-    process(command)
+    process(command, includeInHistory)
     if (autoClear) clear()
   }
 
   def process(command: Command, includeInHistory: Boolean = true): Unit = CommandProcessor.process(None, command) match {
     case Some(commandResult) => {
-      CommandHistory.add(command.text)
+      if (includeInHistory) CommandHistory.add(command.text)
       val resultContainer = new ResultContainer(command, commandResult)
       resultContainer.position.center := ui.position.center()
       ConsoleResults.children += resultContainer
