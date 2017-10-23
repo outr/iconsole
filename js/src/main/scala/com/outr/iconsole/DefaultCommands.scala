@@ -1,7 +1,7 @@
 package com.outr.iconsole
 
-import io.youi.component.{Container, Text}
-import io.youi.font.{Font, GoogleFont}
+import io.youi.component.{Container, TextView}
+import io.youi.font.{Font, GoogleFont, OpenTypeFont}
 import reactify._
 
 object DefaultCommands {
@@ -14,13 +14,13 @@ object DefaultCommands {
   def commands(): List[Container] = {
     CommandProcessor.commands.map { cmd =>
       new Container {
-        val name: Text = new Text {
+        val name: TextView = new TextView {
           value := s"${cmd.name}: "
-          font.file := Font.fromURL(GoogleFont.`Open Sans`.`600`)
+          OpenTypeFont.fromURL(GoogleFont.`Open Sans`.`600`).foreach(font.file := _)
         }
-        val description: Text = new Text {
+        val description: TextView = new TextView {
           value := cmd.shortDescription
-          font.file := Font.fromURL(GoogleFont.`Open Sans`.regular)
+          OpenTypeFont.fromURL(GoogleFont.`Open Sans`.regular).foreach(font.file := _)
         }
         description.position.left := name.position.right + 10
         children ++= Seq(name, description)

@@ -4,7 +4,7 @@ import java.util.Date
 
 import com.outr.iconsole.result.CommandResult
 import io.youi._
-import io.youi.component.{Container, Text}
+import io.youi.component.{Container, TextView}
 import io.youi.font.{Font, GoogleFont}
 import io.youi.paint.{Border, Stroke}
 import reactify._
@@ -17,7 +17,7 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
   private var completed: Option[Long] = None
   result.onComplete(_ => completed = Some(System.currentTimeMillis()))
 
-  private val commandLabel = new Text {
+  private val commandLabel = new TextView {
     value := "Command: "
     font.file := Font.fromURL(GoogleFont.`Open Sans`.`700`)
 
@@ -25,7 +25,7 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
     position.top := 10.0
   }
 
-  private val commandText = new Text {
+  private val commandText = new TextView {
     value := command.text
 
     position.left := commandLabel.position.right + 10.0

@@ -1,8 +1,7 @@
 package com.outr.iconsole
 
-import io.youi.component.{ScrollSupport, TypedContainer}
-import io.youi.layout.VerticalLayout
-import io.youi.ui
+import io.youi.component.TypedContainer
+import io.youi.component.mixins.ScrollSupport
 
 object ConsoleResults extends TypedContainer[ResultContainer] with ScrollSupport {
   layoutManager := new VerticalLayout(10.0, fromTop = true)
