@@ -12,11 +12,6 @@ lazy val iconsole = crossProject.in(file("."))
       "io.youi" %%% "youi-app" % youi
     )
   )
-  .jvmSettings(
-    libraryDependencies ++= Seq(
-      "com.outr" %% "scarango-driver" % "0.8.3-SNAPSHOT"
-    )
-  )
 
 lazy val iconsoleJS = iconsole.js
 lazy val iconsoleJVM = iconsole.jvm
