@@ -6,7 +6,7 @@ import io.youi.layout.VerticalLayout
 import io.youi.ui
 
 object ConsoleResults extends TypedContainer[ResultContainer] with ScrollSupport {
-  layoutManager := new VerticalLayout(10.0, fromTop = true)
+  layoutManager := new VerticalLayout(spacing = 10.0)
   position.left := 0.0
   position.bottom := ui.height - CommandInput.size.height - 10.0
   size.width := ui.width

@@ -1,7 +1,7 @@
 name in ThisBuild := "iconsole"
 organization in ThisBuild := "com.outr"
 version in ThisBuild := "1.0.0-SNAPSHOT"
-scalaVersion in ThisBuild := "2.12.3"
+scalaVersion in ThisBuild := "2.12.4"
 
 val youi = "0.8.0-SNAPSHOT"
 
