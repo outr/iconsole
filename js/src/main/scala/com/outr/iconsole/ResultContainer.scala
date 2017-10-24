@@ -5,7 +5,7 @@ import java.util.Date
 import com.outr.iconsole.result.CommandResult
 import io.youi._
 import io.youi.component.{Container, TextView}
-import io.youi.font.{Font, GoogleFont}
+import io.youi.font.{Font, GoogleFont, OpenTypeFont}
 import io.youi.paint.{Border, Stroke}
 import reactify._
 
@@ -19,7 +19,7 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
 
   private val commandLabel = new TextView {
     value := "Command: "
-    font.file := Font.fromURL(GoogleFont.`Open Sans`.`700`)
+    OpenTypeFont.fromURL(GoogleFont.`Open Sans`.`700`).foreach(font.file := _)
 
     position.left := 10.0
     position.top := 10.0
@@ -32,40 +32,40 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
     position.middle := commandLabel.position.middle
   }
 
-  private val statusLabel = new Text {
+  private val statusLabel = new TextView {
     value := "Status: "
-    font.file := Font.fromURL(GoogleFont.`Open Sans`.`700`)
+    OpenTypeFont.fromURL(GoogleFont.`Open Sans`.`700`).foreach(font.file := _)
 
     position.left := 10.0
     position.top := commandLabel.position.bottom + 10.0
   }
 
-  private val statusText = new Text {
+  private val statusText = new TextView {
     value := "Running"
 
     position.left := statusLabel.position.right + 10.0
     position.middle := statusLabel.position.middle
   }
 
-  private val runTimeText = new Text {
+  private val runTimeText = new TextView {
     value := new Date(command.started).toString
 
     position.right := self.size.width - 20.0
     position.middle := statusLabel.position.middle
   }
 
-  private val runTimeLabel = new Text {
+  private val runTimeLabel = new TextView {
     value := "Elapsed: "
-    font.file := Font.fromURL(GoogleFont.`Open Sans`.`700`)
+    OpenTypeFont.fromURL(GoogleFont.`Open Sans`.`700`).foreach(font.file := _)
 
     position.right := runTimeText.position.left - 10.0
     position.middle := statusLabel.position.middle
   }
 
-  private val removeLink = new Text {
+  private val removeLink = new TextView {
     visible := false
     value := "X"
-    font.file := Font.fromURL(GoogleFont.`Open Sans`.`800`)
+    OpenTypeFont.fromURL(GoogleFont.`Open Sans`.`800`).foreach(font.file := _)
     font.size := 20.0
 
     position.right := self.size.width - 8.0
@@ -94,7 +94,7 @@ class ResultContainer(command: Command, result: Future[CommandResult]) extends C
   }
 
   background := ColorScheme.base2
-  border := Border(Stroke(ColorScheme.base0, 2.0), 10.0)
+  border := Border(Stroke(ColorScheme.base0, lineWidth = 2.0), 10.0)
   position.left := 10.0
   size.width := ui.width - 20.0
   size.height := statusText.position.bottom + 10.0

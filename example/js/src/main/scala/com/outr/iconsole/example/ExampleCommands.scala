@@ -16,7 +16,7 @@ object ExampleCommands {
 
   @shortDescription("Displays a cute picture of a puppy.")
   @description("Displays a very cute picture of a puppy as an image on the screen.")
-  def puppy(): ImageView = new ImageView("https://lh3.googleusercontent.com/kyAkKnaOJHkLBf5huWaJHbqiYbG-h7ThtB3ZCY_SYpU_-AB1RToY1FX8iUzhr6W3cg=h310", ImageMode.Quality)
+  def puppy(): ImageView = new ImageView("https://lh3.googleusercontent.com/kyAkKnaOJHkLBf5huWaJHbqiYbG-h7ThtB3ZCY_SYpU_-AB1RToY1FX8iUzhr6W3cg=h310")
 
   def delayed(): Future[String] = {
     val promise = Promise[String]

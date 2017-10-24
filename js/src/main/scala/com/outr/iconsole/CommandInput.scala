@@ -56,7 +56,7 @@ object CommandInput extends Container {
     case Some(commandResult) => {
       if (includeInHistory) CommandHistory.add(command.text)
       val resultContainer = new ResultContainer(command, commandResult)
-      resultContainer.position.center := ui.position.center()
+      resultContainer.position.center := ui.center()
       ConsoleResults.children += resultContainer
     }
     case None => {

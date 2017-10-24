@@ -1,8 +1,10 @@
 package com.outr.iconsole
 
 import io.youi.component.{Container, TextView}
-import io.youi.font.{Font, GoogleFont, OpenTypeFont}
+import io.youi.font.{GoogleFont, OpenTypeFont}
 import reactify._
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object DefaultCommands {
   def init(): Unit = {

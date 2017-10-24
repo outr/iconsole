@@ -1,11 +1,13 @@
 package com.outr.iconsole
 
-import io.youi.component.Text
-import io.youi.font.{Font, GoogleFont}
+import io.youi.component.TextView
+import io.youi.font.{GoogleFont, OpenTypeFont}
 import reactify._
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object IConsole {
-  Text.font.file := Font.fromURL(GoogleFont.`Open Sans`.regular)
-  Text.font.size := 18.0
-  Text.fill := ColorScheme.primary
+  OpenTypeFont.fromURL(GoogleFont.`Open Sans`.regular).foreach(TextView.font.file := _)
+  TextView.font.size := 18.0
+  TextView.fill := ColorScheme.primary
 }
