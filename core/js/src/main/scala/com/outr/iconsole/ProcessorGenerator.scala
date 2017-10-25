@@ -38,14 +38,38 @@ object ProcessorGenerator {
       }.getOrElse("")
       val name = m.name.decodedName.toString
       val paramList = m.info.paramLists.head
+      var arguments = List.empty[c.Tree]
       val params = paramList.zipWithIndex.map {
         case (param, index) => {
           val paramName = param.name.decodedName.toString
           val paramType = param.info.resultType
-          val defaultArg = defaultArgs.get(s"$name$$default$$${index + 1}").map(m => q"$m")
+          val defaultArg: Option[c.Tree] = defaultArgs.get(s"$name$$default$$${index + 1}").map(m => q"$m")
+
           def extractString: c.Tree = q"com.outr.iconsole.ProcessorGenerator.extractArg[String](command, $paramName, $index, $defaultArg)"
-          if (paramType =:= typeOf[Int]) {
+
+          val a = q"new com.outr.iconsole.Argument($paramName, $index, ${paramType.toString}, $defaultArg)"
+          arguments = a :: arguments
+
+          if (paramType =:= typeOf[Boolean]) {
+            q"$extractString.toBoolean"
+          } else if (paramType =:= typeOf[Int]) {
             q"$extractString.toInt"
+          } else if (paramType =:= typeOf[Long]) {
+            q"$extractString.toLong"
+          } else if (paramType =:= typeOf[Float]) {
+            q"$extractString.toFloat"
+          } else if (paramType =:= typeOf[Double]) {
+            q"$extractString.toDouble"
+          } else if (paramType =:= typeOf[Option[Boolean]]) {
+            q"Option($extractString).map(_.toBoolean)"
+          } else if (paramType =:= typeOf[Option[Int]]) {
+            q"Option($extractString).map(_.toInt)"
+          } else if (paramType =:= typeOf[Option[Long]]) {
+            q"Option($extractString).map(_.toLong)"
+          } else if (paramType =:= typeOf[Option[Float]]) {
+            q"Option($extractString).map(_.toFloat)"
+          } else if (paramType =:= typeOf[Option[Double]]) {
+            q"Option($extractString).map(_.toDouble)"
           } else {
             q"""
                import com.outr.iconsole.DefaultConversions._      // Default implicits
@@ -55,10 +79,11 @@ object ProcessorGenerator {
           }
         }
       }
+      arguments = arguments.reverse
       q"""
          import com.outr.iconsole._
 
-         CommandProcessor($name, $module, $shortDescription, $description, autoRegister = false) { command =>
+         CommandProcessor($name, $module, $shortDescription, $description, Vector(..$arguments), autoRegister = false) { command =>
            $m(..$params)
          }
       """
@@ -69,5 +94,16 @@ object ProcessorGenerator {
   def extractArg[T](command: Command, name: String, index: Int, default: => Option[T])(implicit string2T: String => T): T = {
     val s = command.args.get(name).orElse(command.args.get(s"arg${index + 1}"))
     s.map(string2T).orElse(default).getOrElse(throw new RuntimeException(s"No argument provided for parameter `$name` (index: $index)."))
+  }
+}
+
+class Argument(val name: String, val index: Int, val `type`: String, defaultGetter: => Option[Any]) {
+  def default: Option[Any] = defaultGetter
+
+  override def toString: String = default match {
+    case Some(d) => {
+      s"$name: ${`type`} = $d"
+    }
+    case None => s"$name: ${`type`}"
   }
 }

@@ -40,6 +40,4 @@ object DefaultCommands {
     case Some(cmd) => s"Help for $cmd"
     case None => "General Help"
   }
-
-  def add(a: Int, b: Int): Int = a + b
 }

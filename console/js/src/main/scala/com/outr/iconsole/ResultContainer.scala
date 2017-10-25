@@ -30,7 +30,7 @@ class ResultContainer(val command: Command,
   private val commandText = new TextView {
     value := command.text
 
-    position.left := commandLabel.position.right + 10.0
+    position.left := commandLabel.position.right + 5.0
     position.middle := commandLabel.position.middle
   }
 
@@ -46,7 +46,7 @@ class ResultContainer(val command: Command,
     value := "Running"
     fill := ColorScheme.blue
 
-    position.left := statusLabel.position.right + 10.0
+    position.left := statusLabel.position.right + 5.0
     position.middle := statusLabel.position.middle
   }
 
@@ -61,7 +61,7 @@ class ResultContainer(val command: Command,
     value := "ID: "
     OpenTypeFont.fromURL(GoogleFont.`Open Sans`.`700`).foreach(font.file := _)
 
-    position.right := idText.position.left - 20.0
+    position.right := idText.position.left - 5.0
     position.middle := commandLabel.position.middle
   }
 
@@ -76,7 +76,7 @@ class ResultContainer(val command: Command,
     value := "Elapsed: "
     OpenTypeFont.fromURL(GoogleFont.`Open Sans`.`700`).foreach(font.file := _)
 
-    position.right := runTimeText.position.left - 20.0
+    position.right := runTimeText.position.left - 5.0
     position.middle := statusLabel.position.middle
   }
 

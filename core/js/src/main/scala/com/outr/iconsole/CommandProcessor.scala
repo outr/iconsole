@@ -11,8 +11,11 @@ import scala.language.experimental.macros
 trait CommandProcessor {
   def module: Option[String]
   def name: String
+  def arguments: Vector[Argument] = Vector.empty
   def shortDescription: String = "No description available."
   def description: String = "No description available."
+
+  lazy val syntax: String = s"$name(${arguments.mkString(", ")})"
 
   def process(command: Command): Future[CommandResult]
 }
@@ -50,10 +53,11 @@ object CommandProcessor {
             module: Option[String] = None,
             shortDescription: String = "",
             description: String = "",
+            arguments: Vector[Argument],
             autoRegister: Boolean = true)(processor: Command => Any): CommandProcessor = {
     val ld = if (description.isEmpty) "No description available." else description
     val sd = if (shortDescription.isEmpty) ld.take(100) else shortDescription
-    val p = new FunctionCommandProcessor(module, name, processor, sd, ld)
+    val p = new FunctionCommandProcessor(module, name, processor, sd, ld, arguments)
     if (autoRegister) register(p)
     p
   }
@@ -80,6 +84,7 @@ class FunctionCommandProcessor(override val module: Option[String],
                                override val name: String,
                                processor: Command => Any,
                                override val shortDescription: String,
-                               override val description: String) extends CommandProcessor {
+                               override val description: String,
+                               override val arguments: Vector[Argument]) extends CommandProcessor {
   override def process(command: Command): Future[CommandResult] = CommandProcessor.value2CommandResult(processor(command))
 }
