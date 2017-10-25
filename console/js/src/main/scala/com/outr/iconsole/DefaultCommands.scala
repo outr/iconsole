@@ -36,8 +36,11 @@ object DefaultCommands {
   def clearHistory(): Unit = CommandHistory.clear()
 
   @description("General or specific help for a command.")
-  def help(command: Option[String] = None): String = command match {
-    case Some(cmd) => s"Help for $cmd"
-    case None => "General Help"
+  def help(command: Option[String] = None): List[String] = command match {
+    case Some(cmd) => CommandProcessor.commands.find(_.name.equalsIgnoreCase(cmd)) match {
+      case Some(cp) => List(cp.description, cp.syntax)
+      case None => List(s"No command found by name: $cmd")
+    }
+    case None => List("General Help")
   }
 }

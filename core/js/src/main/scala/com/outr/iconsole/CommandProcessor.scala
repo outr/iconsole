@@ -15,7 +15,7 @@ trait CommandProcessor {
   def shortDescription: String = "No description available."
   def description: String = "No description available."
 
-  lazy val syntax: String = s"$name(${arguments.mkString(", ")})"
+  lazy val syntax: String = s"$name ${arguments.mkString(", ")}"
 
   def process(command: Command): Future[CommandResult]
 }

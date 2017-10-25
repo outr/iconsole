@@ -102,7 +102,12 @@ class Argument(val name: String, val index: Int, val `type`: String, defaultGett
 
   override def toString: String = default match {
     case Some(d) => {
-      s"$name: ${`type`} = $d"
+      val defaultString = if (`type` == "String") {
+        s""""$d""""
+      } else {
+        d.toString
+      }
+      s"$name: ${`type`} = $defaultString"
     }
     case None => s"$name: ${`type`}"
   }
