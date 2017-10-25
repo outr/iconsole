@@ -1,13 +1,13 @@
 package com.outr.iconsole
 
-import com.outr.iconsole.result.{CommandResult, TextResult}
-import io.youi.{HistoryStateChange, Key, ui}
-import io.youi.app.screen.{UIScreen, URLActivation}
+import io.youi.HistoryStateChange
+import io.youi.app.screen.{TitledScreen, UIScreen, URLActivation}
 import io.youi.net.{URL, URLMatcher}
 
 import scala.concurrent.Future
 
-class ConsoleScreen(override val matcher: URLMatcher) extends UIScreen with URLActivation {
+class ConsoleScreen(override val matcher: URLMatcher,
+                    override val title: String = "iConsole") extends UIScreen with URLActivation with TitledScreen {
   override def createUI(): Future[Unit] = {
     container.background := ColorScheme.base3
 
