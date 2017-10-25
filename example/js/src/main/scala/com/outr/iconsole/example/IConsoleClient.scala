@@ -1,6 +1,6 @@
 package com.outr.iconsole.example
 
-import com.outr.iconsole.{CommandInput, CommandProcessor, ConsoleScreen, IConsoleApplication}
+import com.outr.iconsole._
 import io.youi.app.ClientApplication
 import io.youi.http.path
 
@@ -11,9 +11,9 @@ object IConsoleClient extends ClientApplication with IConsoleApplication {
 
   @JSExportTopLevel("application")
   def main(): Unit = {
-    CommandProcessor.register(TestCommandProcessor)
-    CommandProcessor.registerFromObject(None, ExampleCommands)
+    IConsole.register(TestCommandProcessor)
+    IConsole.registerFromObject(None, ExampleCommands)
 
-    CommandInput.processValue("commands", includeInHistory = false)
+    IConsole.execute(Command("commands"), includeInHistory = false)
   }
 }

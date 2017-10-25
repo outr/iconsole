@@ -2,15 +2,24 @@ name in ThisBuild := "iconsole"
 organization in ThisBuild := "com.outr"
 version in ThisBuild := "1.0.0-SNAPSHOT"
 scalaVersion in ThisBuild := "2.12.4"
+scalacOptions in ThisBuild += "-feature"
 
 val youi = "0.8.0-SNAPSHOT"
 
-lazy val iconsole = crossProject.in(file("."))
+lazy val core = crossProject.in(file("core"))
   .settings(
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "io.youi" %%% "youi-app" % youi
     )
+  )
+
+lazy val coreJS = core.js
+lazy val coreJVM = core.jvm
+
+lazy val iconsole = crossProject.in(file("console")).dependsOn(core)
+  .settings(
+    name := "iconsole"
   )
 
 lazy val iconsoleJS = iconsole.js
