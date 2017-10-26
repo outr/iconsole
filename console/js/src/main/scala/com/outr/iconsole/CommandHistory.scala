@@ -12,6 +12,7 @@ object CommandHistory {
 
   def add(command: String): Unit = if (!backlog.headOption.contains(command)) {     // Avoid duplicates in a row
     backlog = (command +: backlog).take(MaxBacklog)
+    index = -1
     save()
   }
 
