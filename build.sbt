@@ -1,11 +1,11 @@
 name in ThisBuild := "iconsole"
 organization in ThisBuild := "com.outr"
-version in ThisBuild := "1.0.0"
+version in ThisBuild := "1.0.1"
 scalaVersion in ThisBuild := "2.12.4"
 scalacOptions in ThisBuild += "-feature"
 resolvers in ThisBuild += Resolver.sonatypeRepo("releases")
 
-val youi = "0.8.0"
+val youi = "0.8.1"
 
 lazy val core = crossProject.in(file("core"))
   .settings(
